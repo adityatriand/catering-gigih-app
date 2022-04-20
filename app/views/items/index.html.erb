@@ -1,7 +1,5 @@
 <p style="color: green"><%= notice %></p>
-
 <h1>Items</h1>
-
 <div id="items">
   <% @items.each do |item| %>
     <%= render item %>
@@ -10,5 +8,4 @@
     </p>
   <% end %>
 </div>
-
 <%= link_to "New item", new_item_path %>

@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
 
   # GET /items or /items.json
   def index
-    @items = Item.all
+    @items = Item.show_all
   end
 
   # GET /items/1 or /items/1.json
@@ -13,6 +13,7 @@ class ItemsController < ApplicationController
   # GET /items/new
   def new
     @item = Item.new
+    @categories = Category.all
   end
 
   # GET /items/1/edit
@@ -25,6 +26,10 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
+        categories = params[:category]
+        categories.each do |category|
+          ItemCategory.create(item_id: @item.id, category_id: category)
+        end
         format.html { redirect_to item_url(@item), notice: "Item was successfully created." }
         format.json { render :show, status: :created, location: @item }
       else
