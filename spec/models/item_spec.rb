@@ -61,5 +61,21 @@ RSpec.describe Item, type: :model do
     
   end
 
+  context 'validation for price field' do
+    
+    it 'is invalid if accept non numeric values for price field' do
+      item.price = "10s"
+      item.valid?
+      expect(item.errors[:price]).to include("is not a number")
+    end
+
+    it 'is invalid if price less than 0.01' do
+      item.price = 0
+      item.valid?
+      expect(item.errors[:price]).to include("must be greater than or equal to 0.01")
+    end
+    
+  end
+
 
 end
