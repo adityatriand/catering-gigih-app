@@ -45,6 +45,21 @@ RSpec.describe Item, type: :model do
     
   end
 
+  context 'validation for description field' do
+    
+    it 'is invalid without a description' do
+      item.description = nil
+      item.valid?
+      expect(item.errors[:description]).to include("can't be blank")
+    end
+
+    it 'is invalid if description more than 150 characrter' do
+      item.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ante magna, rutrum in euismod non, porta et elit. Sed ac quam lorem. Duis quis sed Lorem."
+      item.valid?
+      expect(item.errors[:description]).to include("150 characters is the maximum allowed")
+    end
+    
+  end
 
 
 end
