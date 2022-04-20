@@ -28,9 +28,11 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        categories = params[:category]
-        categories.each do |category|
-          ItemCategory.create(item_id: @item.id, category_id: category)
+        if params[:category]
+          categories = params[:category]
+          categories.each do |category|
+            ItemCategory.create(item_id: @item.id, category_id: category)
+          end
         end
         format.html { redirect_to item_url(@item), notice: "Item was successfully created." }
         format.json { render :show, status: :created, location: @item }
