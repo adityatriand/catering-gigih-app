@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: %i[ show edit update ]
+  before_action :set_item, only: %i[ show edit update destroy ]
+  before_action :set_category, only: %i[ new edit ]
 
   # GET /items or /items.json
   def index
@@ -8,16 +9,17 @@ class ItemsController < ApplicationController
 
   # GET /items/1 or /items/1.json
   def show
+    @item = Item.find_join(params[:id])
   end
 
   # GET /items/new
   def new
     @item = Item.new
-    @categories = Category.all
   end
 
   # GET /items/1/edit
   def edit
+    # @id_categories = ItemCategory.where(item_id: params[:id]).map(&:category_id)
   end
 
   # POST /items or /items.json
@@ -43,6 +45,12 @@ class ItemsController < ApplicationController
   def update
     respond_to do |format|
       if @item.update(item_params)
+        if params[:category] != nil
+          categories = params[:category]
+          categories.each do |category|
+            ItemCategory.update_item_category(params[:id],category)
+          end 
+        end
         format.html { redirect_to item_url(@item), notice: "Item was successfully updated." }
         format.json { render :show, status: :ok, location: @item }
       else
@@ -58,7 +66,6 @@ class ItemsController < ApplicationController
     item_category = ItemCategory.where(item_id: params[:id])
     item_category.destroy_all
 
-    @item = Item.find(params[:id])
     @item.destroy
 
     respond_to do |format|
@@ -70,11 +77,16 @@ class ItemsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_item
-      @item = Item.find_join(params[:id])
+      @item = Item.find(params[:id])
+    end
+
+    def set_category
+      @categories = Category.all
     end
 
     # Only allow a list of trusted parameters through.
     def item_params
       params.require(:item).permit(:name, :description, :price)
     end
+
 end

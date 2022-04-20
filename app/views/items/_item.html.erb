@@ -13,6 +13,10 @@
   </p>
   <p>
     <strong>Category:</strong>
-    <%= item.category %>
+    <% if item.category.nil? %>
+      -
+    <% else %>
+      <%= item.category %>
+    <% end %>
   </p>
 </div>
