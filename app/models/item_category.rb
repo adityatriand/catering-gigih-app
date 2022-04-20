@@ -9,5 +9,9 @@ class ItemCategory < ApplicationRecord
       destroy_by(item_id: item_id, category_id: category_id)
     end
   end
-  
+
+  def self.get_current_category(item_id)
+    find_by_sql("select categories.* from categories inner join item_categories on categories.id = item_categories.category_id where item_categories.item_id = #{item_id} ")
+  end
+
 end

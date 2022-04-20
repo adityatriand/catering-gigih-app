@@ -19,7 +19,20 @@ class ItemsController < ApplicationController
 
   # GET /items/1/edit
   def edit
-    # @id_categories = ItemCategory.where(item_id: params[:id]).map(&:category_id)
+    @current_categories = ItemCategory.get_current_category(params[:id])
+    current_categories_id = ItemCategory.where(item_id: params[:id]).map(&:category_id)
+    notyet_categories_id =[]
+    notyet_categories_name = []
+
+    @categories.each do |category|
+      if current_categories_id.include?(category.id) == false
+        notyet_categories_id << category.id
+        notyet_categories_name << category.name      
+      end
+    end
+
+    @notyet_categories = notyet_categories_id.zip(notyet_categories_name)
+    
   end
 
   # POST /items or /items.json

@@ -23,11 +23,25 @@
   </div>
   <div>
     <p>Category</p>
-    <% @categories.each do |category| %>
-      <input type="checkbox" id="<%= category.name %>" name="category[]" value="<%= category.id %>">
-      <label for="<%= category.name %>"><%= category.name %></label><br>
+    <% if @current_categories %>
+      <% @current_categories.each do |category| %>
+        <input type="text" value="<%= category.name %>" disabled>
+      <% end %>
+      <p>Delete Category</p>
+      <% @current_categories.each do |category| %>
+        <input type="checkbox" id="<%= category.name %>" name="category[]" value="<%= category.id %>">
+        <label for="<%= category.name %>"><%= category.name %></label><br>
+      <% end %>
+    <% end %>
+    <% if @notyet_categories.empty? == false %>
+      <p>Add Category</p>
+      <% @notyet_categories.each do |id, name| %>
+        <input type="checkbox" id="<%= name %>" name="category[]" value="<%= id %>">
+        <label for="<%= name %>"><%= name %></label><br>
+      <% end %>
     <% end %>
   </div>
+  <%= link_to "Create New Category", new_category_path %>
   <div>
     <%= form.submit %>
   </div>
