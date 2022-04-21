@@ -2,7 +2,6 @@
   <% if order.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
-
       <ul>
         <% order.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -10,22 +9,23 @@
       </ul>
     </div>
   <% end %>
-
   <div>
     <%= form.label :email, style: "display: block" %>
     <%= form.text_field :email %>
   </div>
-
   <div>
-    <%= form.label :status_order, style: "display: block" %>
-    <%= form.number_field :status_order %>
+    <p>List Menus</p>
+    <% @items.each do |item| %>
+      <div style="margin-top:10px;">
+        <input type="checkbox" id="<%= item.name %>" name="item[]" value="<%= item.id %>">
+        <label for="<%= item.name %>"><%= item.name %> - Rp.<%= item.price %>/portion</label>
+        <input type="number" name="quantity_<%= item.name %>" placeholder="how many do you order ?"><br>
+        <small>checklist and fill quantity if you choose this</small>
+      </div>
+    <% end %>
   </div>
-
   <div>
-    <%= form.label :total_price, style: "display: block" %>
-    <%= form.text_field :total_price %>
   </div>
-
   <div>
     <%= form.submit %>
   </div>

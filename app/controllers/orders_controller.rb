@@ -1,5 +1,7 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :set_item, only: %i[ new edit ]
+
 
   # GET /orders or /orders.json
   def index
@@ -61,6 +63,10 @@ class OrdersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_order
       @order = Order.find(params[:id])
+    end
+
+    def set_item
+      @items = Item.all
     end
 
     # Only allow a list of trusted parameters through.
