@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.all
+    @orders = Order.show_all
   end
 
   # GET /orders/1 or /orders/1.json
@@ -23,10 +23,24 @@ class OrdersController < ApplicationController
 
   # POST /orders or /orders.json
   def create
-    @order = Order.new(order_params)
+    @status_process = false
+    email = params[:order][:email]
+    order_items = params[:item]
+
+    order_items.each do |order_item|
+        price_item = Item.select(:price).where(id: order_item).first
+        quantity = params["quantity_"+order_item]
+        total_price = price_item[:price] * quantity.to_f
+        @order = Order.create(email: email, status_order: 0, total_price: total_price)
+        @order.save!
+        new_order_detail = OrderDetail.new(order_id: @order.id, item_id: order_item, price: price_item[:price], quantity: quantity.to_i)
+        if new_order_detail.save
+          @status_process = true
+        end
+    end
 
     respond_to do |format|
-      if @order.save
+      if @status_process
         format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
         format.json { render :show, status: :created, location: @order }
       else

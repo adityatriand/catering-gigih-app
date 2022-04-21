@@ -19,7 +19,7 @@
       <div style="margin-top:10px;">
         <input type="checkbox" id="<%= item.name %>" name="item[]" value="<%= item.id %>">
         <label for="<%= item.name %>"><%= item.name %> - Rp.<%= item.price %>/portion</label>
-        <input type="number" name="quantity_<%= item.name %>" placeholder="how many do you order ?"><br>
+        <input type="number" name="quantity_<%= item.id %>" placeholder="how many do you order ?"><br>
         <small>checklist and fill quantity if you choose this</small>
       </div>
     <% end %>
