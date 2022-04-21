@@ -28,7 +28,7 @@
           <input type="checkbox" id="<%= item.name %>" name="item[]" value="<%= item.id %>" checked>
           <label for="<%= item.name %>"><%= item.name %> - Rp.<%= item.price %>/portion</label>
           <input type="number" name="quantity_<%= item.id %>" placeholder="how many do you order ?" value="<%= item.quantity %>"><br>
-          <small>unchecklist if order was canceled</small>
+          <small>fill quantity with 0 if order was canceled</small>
         </div>
       <% end %>
       <% if !@notyet_item_orders.empty? %>

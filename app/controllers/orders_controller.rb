@@ -45,14 +45,15 @@ class OrdersController < ApplicationController
     order_items = params[:item]
 
     @order = Order.create(email: email, status_order: 0)
-
-    order_items.each do |order_item|
-        price_item = Item.select(:price).where(id: order_item).first
-        quantity = params["quantity_"+order_item]
-        @total_price = @total_price + (price_item[:price] * quantity.to_f)
-        new_order_detail = OrderDetail.new(order_id: @order.id, item_id: order_item, price: price_item[:price], quantity: quantity.to_i)
-        new_order_detail.save
-    end
+    if !order_items.nil?
+      order_items.each do |order_item|
+          price_item = Item.select(:price).where(id: order_item).first
+          quantity = params["quantity_"+order_item]
+          @total_price = @total_price + (price_item[:price] * quantity.to_f)
+          new_order_detail = OrderDetail.new(order_id: @order.id, item_id: order_item, price: price_item[:price], quantity: quantity.to_i)
+          new_order_detail.save
+      end
+    end    
 
     @order.total_price = @total_price
     respond_to do |format|
@@ -68,10 +69,26 @@ class OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1 or /orders/1.json
   def update
+    @order.email = params[:order][:email]
+    @order.status_order = params[:order][:status_order]
     respond_to do |format|
-      if @order.update(order_params)
-        format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
-        format.json { render :show, status: :ok, location: @order }
+      if @order.save
+        if params[:item] != nil
+          item_orders = params[:item]
+          item_orders.each do |item|
+            quantity = params["quantity_"+item]
+            order_detail = OrderDetail.update_item_order(params[:id],item,quantity)
+          end
+        end
+        @order2 = OrderDetail.find_by(order_id: params[:id])
+        if @order2.nil?
+          order = Order.find_by(id: params[:id])
+          order.destroy
+          format.html { redirect_to orders_path, notice: "Order was successfully destroyed." }
+        else
+          format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
+          format.json { render :show, status: :ok, location: @order }
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @order.errors, status: :unprocessable_entity }
