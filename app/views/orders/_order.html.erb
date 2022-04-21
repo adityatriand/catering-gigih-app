@@ -1,0 +1,23 @@
+<div id="<%= dom_id order %>">
+  <p>
+    <strong>Email:</strong>
+    <%= order.email %>
+  </p>
+  <p>
+    <strong>Order Date:</strong>
+    <%= order.updated_at %>
+  </p>
+  <p>
+    <strong>Status order:</strong>
+    <% status = ["NEW","PAID","CANCELED"] %>
+    <%= status[order.status_order] %>
+  </p>
+  <p>
+    <strong>Detail Order:</strong>
+    <%= order.detail %>
+  </p>
+  <p>
+    <strong>Total Price:</strong>
+    <%= order.total_price %>
+  </p>
+</div>
