@@ -20,6 +20,21 @@ class OrdersController < ApplicationController
 
   # GET /orders/1/edit
   def edit
+    @item_orders = Order.get_item_order(params[:id])
+    current_items_order_id = OrderDetail.where(order_id: params[:id]).map(&:item_id)
+    notyet_items_order_id =[]
+    notyet_items_name = []
+    notyet_items_price = []
+
+    @items.each do |item|
+      if current_items_order_id.include?(item.id) == false
+        notyet_items_order_id << item.id
+        notyet_items_name << item.name
+        notyet_items_price << item.price 
+      end
+    end
+
+    @notyet_item_orders = notyet_items_order_id.zip(notyet_items_name, notyet_items_price)
   end
 
   # POST /orders or /orders.json

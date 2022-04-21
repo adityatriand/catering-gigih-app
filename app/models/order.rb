@@ -9,4 +9,8 @@ class Order < ApplicationRecord
         find_by_sql("select orders.* , GROUP_CONCAT(items.name || ' - ' || cast(order_details.quantity as varchar) || ' portion / Rp.' || cast(order_details.price as varchar), ' | '  ) as detail from orders inner join order_details on orders.id = order_details.order_id inner join items on items.id = order_details.item_id where orders.id = #{id}")
     end
 
+    def self.get_item_order(id)
+        find_by_sql("select items.name, items.id, order_details.quantity, order_details.price from order_details inner join orders on orders.id = order_details.order_id inner join items on items.id = order_details.item_id where orders.id = #{id}")
+    end
+
 end
