@@ -66,6 +66,8 @@ class OrdersController < ApplicationController
 
   # DELETE /orders/1 or /orders/1.json
   def destroy
+    order_detail = OrderDetail.where(order_id: params[:id])
+    order_detail.destroy_all  
     @order.destroy
 
     respond_to do |format|
