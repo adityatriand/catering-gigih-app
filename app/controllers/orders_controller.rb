@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :set_order, only: %i[ edit update destroy ]
   before_action :set_item, only: %i[ new edit ]
 
 
@@ -10,6 +10,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/1 or /orders/1.json
   def show
+    @order = Order.find_join(params[:id])
   end
 
   # GET /orders/new
@@ -24,23 +25,23 @@ class OrdersController < ApplicationController
   # POST /orders or /orders.json
   def create
     @status_process = false
+    @total_price = 0
     email = params[:order][:email]
     order_items = params[:item]
+
+    @order = Order.create(email: email, status_order: 0)
 
     order_items.each do |order_item|
         price_item = Item.select(:price).where(id: order_item).first
         quantity = params["quantity_"+order_item]
-        total_price = price_item[:price] * quantity.to_f
-        @order = Order.create(email: email, status_order: 0, total_price: total_price)
-        @order.save!
+        @total_price = @total_price + (price_item[:price] * quantity.to_f)
         new_order_detail = OrderDetail.new(order_id: @order.id, item_id: order_item, price: price_item[:price], quantity: quantity.to_i)
-        if new_order_detail.save
-          @status_process = true
-        end
+        new_order_detail.save
     end
 
+    @order.total_price = @total_price
     respond_to do |format|
-      if @status_process
+      if @order.save
         format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
         format.json { render :show, status: :created, location: @order }
       else
