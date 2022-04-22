@@ -5,7 +5,11 @@ class OrdersController < ApplicationController
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.show_all
+    if params[:email]
+      @orders = Order.show_all_by_email(params[:email])
+    else
+      @orders = Order.show_all
+    end
   end
 
   # GET /orders/1 or /orders/1.json
