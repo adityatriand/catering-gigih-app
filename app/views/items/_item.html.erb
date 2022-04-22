@@ -1,22 +1,12 @@
 <div id="<%= dom_id item %>">
-  <p>
-    <strong>Name:</strong>
-    <%= item.name %>
-  </p>
-  <p>
-    <strong>Description:</strong>
-    <%= item.description %>
-  </p>
-  <p>
-    <strong>Price:</strong>
-    <%= item.price %>
-  </p>
-  <p>
-    <strong>Category:</strong>
+  <h5 class="card-title mb-3">Rp.<%= item.price %> / portion</h5>
+  <p class="card-text">
+    Category : 
     <% if item.category.nil? %>
       -
     <% else %>
       <%= item.category %>
     <% end %>
   </p>
+  <p class="card-text">Description : <%= item.description %></p>
 </div>

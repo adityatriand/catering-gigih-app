@@ -84,3 +84,24 @@ body {
     padding: 30px;
     border-radius: 20px;
 }
+
+.card-header,
+.card-footer {
+    background-color: var(--col4);
+    color: white;
+    font-weight: 600;
+}
+
+.card-body {
+    background-color: var(--col1);
+}
+
+.card-button {
+    background-color: var(--col3);
+    color: white;
+}
+
+.card-button:hover {
+    background-color: white;
+    color: var(--col3);
+}
