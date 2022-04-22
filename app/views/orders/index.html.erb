@@ -1,5 +1,7 @@
 <p style="color: green"><%= notice %></p>
 <h1>List Orders</h1>
+<%= @order_times %>
+<%= @current_times %>
 <div class="mt-3">
   <%= link_to "Dashboard", '/',  {class: "btn btn-secondary"} %>
   <%= link_to "New order", new_order_path,  {class: "btn btn-success"} %>

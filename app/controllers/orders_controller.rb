@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ edit update destroy ]
   before_action :set_item, only: %i[ new edit ]
+  before_action :set_status, only: %i[ index ]
 
 
   # GET /orders or /orders.json
@@ -49,7 +50,6 @@ class OrdersController < ApplicationController
 
   # POST /orders or /orders.json
   def create
-    @status_process = false
     @total_price = 0
     email = params[:order][:email]
     @order_items = params[:item]
@@ -131,5 +131,35 @@ class OrdersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def order_params
       params.require(:order).permit(:email, :status_order, :total_price)
+    end
+
+    def set_status
+      current_datetime = DateTime.current.localtime
+      orders = Order.all
+
+      orders.each do |order|
+        date_order = order.created_at.localtime
+        order_time = Time.parse(date_order.strftime('%H:%M:%S'))
+        current_time = Time.parse(current_datetime.strftime('%H:%M:%S'))
+        if current_time.hour > 16 
+          if date_order.to_date == current_datetime.to_date
+            if order_time.hour < 17  
+              update_status = Order.find(order.id)
+              update_status.status_order = 2
+              update_status.save
+            end
+          else
+            tommorow_date_order = date_order.since_days(1)
+            if tommorow_date_order.to_date == current_datetime.to_date
+              if order.status_order == 0
+                update_status = Order.find(order.id)
+                update_status.status_order = 2
+                update_status.save
+              end
+            end
+          end
+        end
+      end
+
     end
 end
