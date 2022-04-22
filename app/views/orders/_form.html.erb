@@ -14,9 +14,9 @@
     <%= form.email_field :email, {class: "form-control", placeholder: "Insert Email Customer", required: true}  %>
   </div>
   <% if order.status_order %>
-    <div class="form-select">
+    <div class="form-group">
       <%= form.label :status_order, style: "display: block" %>
-      <%= form.select :status_order, [['NEW',0], ['PAID',1], ['CANCELED',2]], selected: order.status_order%>
+      <%= form.select(:status_order, [['NEW',0], ['PAID',1], ['CANCELED',2]], {selected: order.status_order},  {class: "form-control"}) %>
     </div>
   <% end %>
   <div>
@@ -37,7 +37,7 @@
           <div class="form-check m-t-10">
             <input class="form-check-input" type="checkbox" id="<%= name %>" name="item[]" value="<%= id %>">
             <label class="form-check-label" for="<%= name %>"><%= name %> - Rp.<%= price %>/portion</label>
-            <input class="form-control" type="number" name="quantity_<%= id %>" placeholder="how many do you order ?"><br>
+            <input class="form-control" type="number" name="quantity_<%= id %>" placeholder="how many do you order ?">
             <small>checklist and fill quantity if you choose this</small>
           </div>
         <% end %>
@@ -45,7 +45,7 @@
     <% else %>
       <% @items.each do |item| %>
         <div class="form-check m-t-10">
-          <input class="form-check-input" type="checkbox" id="<%= item.name %>" name="item[]" value="<%= item.id %>" required>
+          <input class="form-check-input" type="checkbox" id="<%= item.name %>" name="item[]" value="<%= item.id %>">
           <label class="form-check-label" for="<%= item.name %>"><%= item.name %> - Rp.<%= item.price %>/portion</label>
           <input class="form-control" type="number" name="quantity_<%= item.id %>" placeholder="how many do you order ?">
           <small>checklist and fill quantity if you choose this</small>

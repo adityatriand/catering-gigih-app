@@ -1,10 +1,7 @@
 <h1>Editing order</h1>
-
-<%= render "form", order: @order %>
-
-<br>
-
-<div>
-  <%= link_to "Show this order", @order %> |
-  <%= link_to "Back to orders", orders_path %>
+<div class="mt-3">
+  <%= link_to "Show this order", @order, {class: "btn btn-primary"} %>
+</div>
+<div class="form">
+  <%= render "form", order: @order %>
 </div>

@@ -42,22 +42,22 @@ class OrdersController < ApplicationController
     @status_process = false
     @total_price = 0
     email = params[:order][:email]
-    order_items = params[:item]
-
-    @order = Order.create(email: email, status_order: 0)
-    if !order_items.nil?
-      order_items.each do |order_item|
+    @order_items = params[:item]
+    if !@order_items.nil?
+      @order = Order.create(email: email, status_order: 0)
+      @order_items.each do |order_item|
           price_item = Item.select(:price).where(id: order_item).first
           quantity = params["quantity_"+order_item]
           @total_price = @total_price + (price_item[:price] * quantity.to_f)
           new_order_detail = OrderDetail.new(order_id: @order.id, item_id: order_item, price: price_item[:price], quantity: quantity.to_i)
           new_order_detail.save
-      end
-    end    
-
-    @order.total_price = @total_price
+      end      
+      @order.total_price = @total_price
+    end
     respond_to do |format|
-      if @order.save
+      if @order_items.nil?
+        format.html { redirect_to orders_path, notice: "Order was unsuccessfully created." }
+      elsif @order.save
         format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
         format.json { render :show, status: :created, location: @order }
       else
