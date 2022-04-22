@@ -6,6 +6,8 @@
 </div>
 <h4 class="mt-3">Daily Report</h4>
 <div class="mt-3">
+  <%= link_to "Show All", orders_path,  {class: "btn btn-cus"} %>
+  <%= link_to "Show Order Today", "/orders?today=#{DateTime.current.to_date}",  {class: "btn btn-cus"} %>
   <a class="btn btn-cus" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#filterEmail">Filter With Email</a>
   <a class="btn btn-cus" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#filterPrice">Filter With Total Price</a>
   <a class="btn btn-cus" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#filterDate">Filter With Date</a>

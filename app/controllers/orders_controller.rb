@@ -7,6 +7,8 @@ class OrdersController < ApplicationController
   def index
     if params[:email]
       @orders = Order.show_all_by_email(params[:email])
+    elsif params[:today]
+      @orders = Order.show_all_by_today(params[:today])
     else
       @orders = Order.show_all
     end
