@@ -1,10 +1,8 @@
 <h1>Editing category</h1>
-
-<%= render "form", category: @category %>
-
+<div class="form">
+  <%= render "form", category: @category %>
+</div>
 <br>
-
 <div>
-  <%= link_to "Show this category", @category %> |
-  <%= link_to "Back to categories", categories_path %>
+  <%= link_to "Cancel", :back, {class: "btn btn-secondary"} %>
 </div>
