@@ -59,13 +59,23 @@
   </div>
   <div class="modal fade" id="filterDate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content bg-warning">
+      <div class="modal-content bg-secondary">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Display List Order With Date</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Lorem Ipsum
+          <form action="">
+            <div class="mb-3">
+              <label for="date_start" class="form-label">Date Start</label>
+              <input type="date" class="form-control" id="date_start" placeholder="Insert Total Price Order" name="date_start" required>
+            </div>
+            <div class="mb-3">
+              <label for="date_end" class="form-label">Date End</label>
+              <input type="date" class="form-control" id="date_end" placeholder="Insert Total Price Order" name="date_end" required>
+            </div>
+            <button type="submit" class="btn btn-cus">Filter</button>
+          </form>
         </div>
       </div>
     </div>

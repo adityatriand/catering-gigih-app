@@ -11,6 +11,8 @@ class OrdersController < ApplicationController
       @orders = Order.show_all_by_today(params[:today])
     elsif params[:total_price]
       @orders = Order.show_all_by_total_price(params[:total_price], params[:sign])
+    elsif params[:date_start]
+      @orders = Order.show_all_by_range_date(params[:date_start], params[:date_end])
     else
       @orders = Order.show_all
     end
