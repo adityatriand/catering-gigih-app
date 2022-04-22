@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
   before_action :set_order, only: %i[ edit update destroy ]
   before_action :set_item, only: %i[ new edit ]
   before_action :set_status, only: %i[ index ]
@@ -22,6 +23,9 @@ class OrdersController < ApplicationController
   # GET /orders/1 or /orders/1.json
   def show
     @order = Order.find_join(params[:id])
+    if @order[0][:id] == nil
+      render_404
+    end
   end
 
   # GET /orders/new
@@ -131,6 +135,10 @@ class OrdersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def order_params
       params.require(:order).permit(:email, :status_order, :total_price)
+    end
+
+    def render_404
+      render file: "#{Rails.root}/public/404.html", layout: false, status: 404
     end
 
     def set_status

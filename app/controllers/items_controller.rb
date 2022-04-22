@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
   before_action :set_item, only: %i[ show edit update destroy ]
   before_action :set_category, only: %i[ new edit ]
 
@@ -102,6 +103,10 @@ class ItemsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def item_params
       params.require(:item).permit(:name, :description, :price)
+    end
+
+    def render_404
+      render file: "#{Rails.root}/public/404.html", layout: false, status: 404
     end
 
 end

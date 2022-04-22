@@ -1,4 +1,5 @@
 class CategoriesController < ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
   before_action :set_category, only: %i[edit update destroy ]
 
   # GET /categories or /categories.json
@@ -57,5 +58,9 @@ class CategoriesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def category_params
       params.require(:category).permit(:name)
+    end
+
+    def render_404
+      render file: "#{Rails.root}/public/404.html", layout: false, status: 404
     end
 end
