@@ -23,25 +23,7 @@ RSpec.describe Order, type: :model do
       order.email = nil
       order.valid?
       expect(order.errors[:email]).to include("can't be blank")
-    end
-
-    it 'is invalid duplicate email' do
-      order1 = Order.create(
-        email: 'tes@gmail.com',
-        status_order: 0,
-        total_price: 15000.0
-      )
-      
-      order2 = Order.new(
-        email: 'tes@gmail.com',
-        status_order: 0,
-        total_price: 15000.0
-      )
-  
-      order2.valid?
-      
-      expect(order2.errors[:email]).to include("has already been taken")
-    end    
+    end 
 
     it 'is invalid if use wrong format email' do
       order.email = "halo@gigih"
