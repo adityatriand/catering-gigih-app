@@ -22,7 +22,7 @@
           <form action="">
             <div class="mb-3">
               <label for="email" class="form-label">Email Customer</label>
-              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Insert Email Customer" name="email">
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Insert Email Customer" name="email" required>
             </div>
             <button type="submit" class="btn btn-cus">Filter</button>
           </form>
@@ -32,13 +32,27 @@
   </div>
   <div class="modal fade" id="filterPrice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content bg-warning">
+      <div class="modal-content bg-secondary">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Display List Order With Total Price</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Lorem Ipsum
+          <form action="">
+            <div class="mb-3">
+              <label for="total_price" class="form-label">Total Price</label>
+              <input type="total_price" class="form-control" id="total_price" placeholder="Insert Total Price Order" name="total_price" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Choose assign</label>
+              <select class="form-select" name="sign">
+                <option value="=">Equal</option>
+                <option value="<=">Less Than</option>
+                <option value=">=">More Than</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-cus">Filter</button>
+          </form>
         </div>
       </div>
     </div>

@@ -9,6 +9,8 @@ class OrdersController < ApplicationController
       @orders = Order.show_all_by_email(params[:email])
     elsif params[:today]
       @orders = Order.show_all_by_today(params[:today])
+    elsif params[:total_price]
+      @orders = Order.show_all_by_total_price(params[:total_price], params[:sign])
     else
       @orders = Order.show_all
     end
