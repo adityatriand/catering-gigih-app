@@ -56,7 +56,7 @@ class OrdersController < ApplicationController
     end
     respond_to do |format|
       if @order_items.nil?
-        format.html { redirect_to orders_path, notice: "Order was unsuccessfully created." }
+        format.html { redirect_to orders_path, notice: "Unsucessfully process. Order must have 1 item order" }
       elsif @order.save
         format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
         format.json { render :show, status: :created, location: @order }
