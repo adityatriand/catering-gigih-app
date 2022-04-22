@@ -4,6 +4,51 @@
   <%= link_to "Dashboard", '/',  {class: "btn btn-secondary"} %>
   <%= link_to "New order", new_order_path,  {class: "btn btn-success"} %>
 </div>
+<h4 class="mt-3">Daily Report</h4>
+<div class="mt-3">
+  <a class="btn btn-cus" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#filterEmail">Filter With Email</a>
+  <a class="btn btn-cus" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#filterPrice">Filter With Total Price</a>
+  <a class="btn btn-cus" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#filterDate">Filter With Date</a>
+  <div class="modal fade" id="filterEmail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content bg-warning">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Display List Order With Email</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Lorem Ipsum
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="filterPrice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content bg-warning">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Display List Order With Total Price</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Lorem Ipsum
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="filterDate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content bg-warning">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Display List Order With Date</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Lorem Ipsum
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="orders">
   <div class="row">
     <% @orders.each do |order| %>
