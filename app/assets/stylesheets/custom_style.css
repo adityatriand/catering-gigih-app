@@ -76,13 +76,12 @@ body {
     margin: 20px auto;
 }
 
-.form-login,
-.form-items {
+.form {
     width: 500px;
-    background-color: var(--col1);
-    margin: 0 auto;
-    padding: 30px;
-    border-radius: 20px;
+}
+
+.form-group {
+    margin-top: 10px;
 }
 
 .card-header,

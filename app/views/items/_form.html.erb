@@ -9,45 +9,67 @@
       </ul>
     </div>
   <% end %>
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, {class: "form-control", placeholder: "Insert Item Name", required: true}  %>
+  </div>
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_area :description, {class: "form-control", placeholder: "Insert Item Description", required: true, rows: "5"}  %>
+  </div>
+  <div class="form-group">
+    <%= form.label :price %>
+    <%= form.number_field :price, {class: "form-control", placeholder: "Insert Item Price", required: true}  %>
   </div>
   <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_area :description %>
-  </div>
-  <div>
-    <%= form.label :price, style: "display: block" %>
-    <%= form.text_field :price %>
-  </div>
-  <div>
-    <p>Category</p>
+    <p class="mt-3 mb-0">Category</p>
     <% if @current_categories %>
       <% @current_categories.each do |category| %>
-        <input type="text" value="<%= category.name %>" disabled>
+        <input class="form-control" type="text" value="<%= category.name %>" disabled>
       <% end %>
-      <p>Delete Category</p>
-      <% @current_categories.each do |category| %>
-        <input type="checkbox" id="<%= category.name %>" name="category[]" value="<%= category.id %>">
-        <label for="<%= category.name %>"><%= category.name %></label><br>
-      <% end %>
+      <p class="m-t-10 fw-bold" style="color:red;">Delete Category</p>
+      <small class="text-muted">checklist category you want to delete</small>
+      <div class="mt-2">
+        <% @current_categories.each do |category| %>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="<%= category.name %>" name="category[]" value="<%= category.id %>">
+            <label class="form-check-label" for="<%= category.name %>">
+              <%= category.name %>
+            </label>
+          </div>
+        <% end %>
+      </div>
     <% end %>
     <% if !@notyet_categories %>
-      <% @categories.each do |category| %>
-        <input type="checkbox" id="<%= category.name %>" name="category[]" value="<%= category.id %>">
-        <label for="<%= category.name %>"><%= category.name %></label><br>
-      <% end %>
+      <small class="text-muted">checklist category related to item</small>
+      <div class="mt-2">
+        <% @categories.each do |category| %>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="<%= category.name %>" name="category[]" value="<%= category.id %>">
+            <label class="form-check-label" for="<%= category.name %>">
+              <%= category.name %>
+            </label>
+          </div>
+        <% end %>
+      </div>
     <% else %>
-      <p>Add Category</p>
-      <% @notyet_categories.each do |id, name| %>
-        <input type="checkbox" id="<%= name %>" name="category[]" value="<%= id %>">
-        <label for="<%= name %>"><%= name %></label><br>
-      <% end %>
+      <p class="m-t-10 fw-bold" style="color:green;">Add Category</p>
+      <small class="text-muted">checklist category you want to add</small>
+      <div class="mt-2">
+        <% @notyet_categories.each do |id, name| %>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="<%= name %>" name="category[]" value="<%= id %>">
+            <label class="form-check-label" for="<%= name %>">
+              <%= name %>
+            </label>
+          </div>
+        <% end %>
+      </div>
     <% end %>
+    <%= link_to "Create New Category", new_category_path, {class: "btn btn-info text-uppercase mt-3", style: "font-size:10px;"} %>
   </div>
-  <%= link_to "Create New Category", new_category_path %>
-  <div>
-    <%= form.submit %>
+  <div class="mt-4">
+    <%= form.submit 'Save', :class => 'btn btn-success'%>
+    <%= link_to "Back to items", items_path, {class: "btn btn-secondary ms-2"} %>
   </div>
 <% end %>
