@@ -1,31 +1,9 @@
 <div id="<%= dom_id order %>">
-  <p>
-    <strong>Email:</strong>
-    <%= order.email %>
-  </p>
-  <p>
-    <strong>Order Create Date:</strong>
-    <%= order.created_at.localtime.strftime('%a, %d %b %Y %H:%M:%S WIB') %>
-  </p>
-  <p>
-    <strong>Order Update Date:</strong>
-    <%= order.updated_at.localtime.strftime('%a, %d %b %Y %H:%M:%S WIB') %>
-  </p>
-  <p>
-    <strong>Status order:</strong>
+  <h5 class="card-title mb-3">Status Order : 
     <% status = ["NEW","PAID","CANCELED"] %>
     <%= status[order.status_order] %>
-  </p>
-  <p>
-    <strong>Detail Order:</strong>
-    <% if order.detail %>
-      <%= order.detail %>
-    <% else %>
-      -
-    <% end %>
-  </p>
-  <p>
-    <strong>Total Price:</strong>
-    <%= order.total_price %>
-  </p>
+  </h5>
+  <p class="card-text"> Order Date : <%= order.created_at.localtime.strftime('%a, %d %b %Y %H:%M:%S WIB') %></p>
+  <p class="card-text"> Detail Order : <%= order.detail %></p>
+  <p class="card-text"> Total Price : Rp. <%= order.total_price %></p>
 </div>
