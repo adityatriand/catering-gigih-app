@@ -143,7 +143,7 @@ class OrdersController < ApplicationController
         current_time = Time.parse(current_datetime.strftime('%H:%M:%S'))
         if current_time.hour > 16 
           if date_order.to_date == current_datetime.to_date
-            if order_time.hour < 17  
+            if order_time.hour < 17  && order.status_order == 0
               update_status = Order.find(order.id)
               update_status.status_order = 2
               update_status.save
