@@ -9,53 +9,52 @@
       </ul>
     </div>
   <% end %>
-  <div>
-    <%= form.label :email, style: "display: block" %>
-    <%= form.text_field :email %>
+  <div class="form-group">
+    <%= form.label :email %>
+    <%= form.email_field :email, {class: "form-control", placeholder: "Insert Email Customer", required: true}  %>
   </div>
   <% if order.status_order %>
-    <div>
+    <div class="form-select">
       <%= form.label :status_order, style: "display: block" %>
       <%= form.select :status_order, [['NEW',0], ['PAID',1], ['CANCELED',2]], selected: order.status_order%>
     </div>
   <% end %>
   <div>
-    <p>List Menus</p>
+    <p class="mt-3 mb-0" >List Menus</p>
     <% if @item_orders %>
-      <p>Ordered Menu</p>
+      <p class="m-t-10 fw-bold" style="color:green;">Ordered Menu</p>
       <% @item_orders.each do |item| %>
-        <div style="margin-top:10px;">
-          <input type="checkbox" id="<%= item.name %>" name="item[]" value="<%= item.id %>" checked>
-          <label for="<%= item.name %>"><%= item.name %> - Rp.<%= item.price %>/portion</label>
-          <input type="number" name="quantity_<%= item.id %>" placeholder="how many do you order ?" value="<%= item.quantity %>"><br>
+        <div class="form-check m-t-10">
+          <input class="form-check-input" type="checkbox" id="<%= item.name %>" name="item[]" value="<%= item.id %>" checked>
+          <label class="form-check-label" for="<%= item.name %>"><%= item.name %> - Rp.<%= item.price %>/portion</label>
+          <input class="form-control" type="number" name="quantity_<%= item.id %>" placeholder="how many do you order ?" value="<%= item.quantity %>">
           <small>fill quantity with 0 if order was canceled</small>
         </div>
       <% end %>
       <% if !@notyet_item_orders.empty? %>
-        <p>Unordered Menu</p>
+        <p class="m-t-10 fw-bold" style="color:red;" >Unordered Menu</p>
         <% @notyet_item_orders.each do |id, name, price| %>
-          <div style="margin-top:10px;">
-            <input type="checkbox" id="<%= name %>" name="item[]" value="<%= id %>">
-            <label for="<%= name %>"><%= name %> - Rp.<%= price %>/portion</label>
-            <input type="number" name="quantity_<%= id %>" placeholder="how many do you order ?"><br>
+          <div class="form-check m-t-10">
+            <input class="form-check-input" type="checkbox" id="<%= name %>" name="item[]" value="<%= id %>">
+            <label class="form-check-label" for="<%= name %>"><%= name %> - Rp.<%= price %>/portion</label>
+            <input class="form-control" type="number" name="quantity_<%= id %>" placeholder="how many do you order ?"><br>
             <small>checklist and fill quantity if you choose this</small>
           </div>
         <% end %>
       <% end %>
     <% else %>
       <% @items.each do |item| %>
-        <div style="margin-top:10px;">
-          <input type="checkbox" id="<%= item.name %>" name="item[]" value="<%= item.id %>">
-          <label for="<%= item.name %>"><%= item.name %> - Rp.<%= item.price %>/portion</label>
-          <input type="number" name="quantity_<%= item.id %>" placeholder="how many do you order ?"><br>
+        <div class="form-check m-t-10">
+          <input class="form-check-input" type="checkbox" id="<%= item.name %>" name="item[]" value="<%= item.id %>" required>
+          <label class="form-check-label" for="<%= item.name %>"><%= item.name %> - Rp.<%= item.price %>/portion</label>
+          <input class="form-control" type="number" name="quantity_<%= item.id %>" placeholder="how many do you order ?">
           <small>checklist and fill quantity if you choose this</small>
         </div>
       <% end %>
     <% end %>
   </div>
-  <div>
-  </div>
-  <div>
-    <%= form.submit %>
+  <div class="mt-4">
+    <%= form.submit 'Save', :class => 'btn btn-success'%>
+    <%= link_to "Back to orders", orders_path, {class: "btn btn-secondary ms-2"} %>
   </div>
 <% end %>
