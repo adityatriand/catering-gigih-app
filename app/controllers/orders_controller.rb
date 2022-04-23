@@ -36,48 +36,56 @@ class OrdersController < ApplicationController
   # GET /orders/1/edit
   def edit
     @item_orders = Order.get_item_order(params[:id])
-    current_items_order_id = OrderDetail.where(order_id: params[:id]).map(&:item_id)
-    notyet_items_order_id =[]
-    notyet_items_name = []
-    notyet_items_price = []
-
-    @items.each do |item|
-      if current_items_order_id.include?(item.id) == false
-        notyet_items_order_id << item.id
-        notyet_items_name << item.name
-        notyet_items_price << item.price 
+    if @order[:status_order] == 0
+      current_items_order_id = OrderDetail.where(order_id: params[:id]).map(&:item_id)
+      notyet_items_order_id =[]
+      notyet_items_name = []
+      notyet_items_price = []
+  
+      @items.each do |item|
+        if current_items_order_id.include?(item.id) == false
+          notyet_items_order_id << item.id
+          notyet_items_name << item.name
+          notyet_items_price << item.price 
+        end
       end
+  
+      @notyet_item_orders = notyet_items_order_id.zip(notyet_items_name, notyet_items_price)
+    else
+      redirect_to orders_path, notice: "Order cannot edit because it's already PAID / CANCELED"
     end
-
-    @notyet_item_orders = notyet_items_order_id.zip(notyet_items_name, notyet_items_price)
   end
 
   # POST /orders or /orders.json
   def create
     @total_price = 0
     email = params[:order][:email]
-    @order_items = params[:item]
-    if !@order_items.nil?
-      @order = Order.create(email: email, status_order: 0)
-      @order_items.each do |order_item|
-          price_item = Item.select(:price).where(id: order_item).first
-          quantity = params["quantity_"+order_item]
-          @total_price = @total_price + (price_item[:price] * quantity.to_f)
-          new_order_detail = OrderDetail.new(order_id: @order.id, item_id: order_item, price: price_item[:price], quantity: quantity.to_i)
-          new_order_detail.save
-      end      
-      @order.total_price = @total_price
-    end
-    respond_to do |format|
-      if @order_items.nil?
-        format.html { redirect_to orders_path, notice: "Unsucessfully process. Order must have 1 item order" }
-      elsif @order.save
-        format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
-        format.json { render :show, status: :created, location: @order }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
+    if valid_email?(email)
+      @order_items = params[:item]
+      if !@order_items.nil?
+        @order = Order.create(email: email, status_order: 0)
+        @order_items.each do |order_item|
+            price_item = Item.select(:price).where(id: order_item).first
+            quantity = params["quantity_"+order_item]
+            @total_price = @total_price + (price_item[:price] * quantity.to_f)
+            new_order_detail = OrderDetail.new(order_id: @order.id, item_id: order_item, price: price_item[:price], quantity: quantity.to_i)
+            new_order_detail.save
+        end      
+        @order.total_price = @total_price
       end
+      respond_to do |format|
+        if @order_items.nil?
+          format.html { redirect_to orders_path, notice: "Unsucessfully process. Order must have 1 item order" }
+        elsif @order.save
+          format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
+          format.json { render :show, status: :created, location: @order }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @order.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      redirect_to new_order_path, notice: "Unsucessfully process. Use Email Valid"
     end
   end
 
@@ -140,6 +148,12 @@ class OrdersController < ApplicationController
     def render_404
       render file: "#{Rails.root}/public/404.html", layout: false, status: 404
     end
+
+    def valid_email?(email)
+      valid_email = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+      email =~ valid_email
+    end
+
 
     def set_status
       current_datetime = DateTime.current.localtime
