@@ -171,7 +171,7 @@ class OrdersController < ApplicationController
               update_status.save
             end
           else
-            tommorow_date_order = date_order.since_days(1)
+            tommorow_date_order = date_order.days_since(1)
             if tommorow_date_order.to_date == current_datetime.to_date
               if order.status_order == 0
                 update_status = Order.find(order.id)
